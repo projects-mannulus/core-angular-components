@@ -1,0 +1,72 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <ng-container *ngIf="data.icon">
+          <img
+            *ngIf="data.icon && data.icon.type === 'img'; else icon"
+            [src]="data.icon?.resource"
+            [width]="data.icon?.width || 45"
+            [height]="data.icon?.heigth || 45"
+            alt="avatar"
+          />
+          <ng-template #icon>
+            <mat-icon>{{ data.icon.resource }}</mat-icon>
+          </ng-template>
+        </ng-container>
+        <h2>
+          <strong>
+            {{ data.title }}
+          </strong>
+        </h2>
+      </div>
+    </div>
+    <button
+      *ngIf="!data.hideCloseButtonInTopBar"
+      mat-icon-button
+      (click)="dialogRef.close()"
+      class="modal-close-button"
+      aria-label="Close dialog"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <ng-template adHost></ng-template>
+  </div>
+
+  <div
+    mat-dialog-actions
+    class="modal-actions"
+    *ngIf="!data.hideDefaultActions || data.actions?.otherButtons"
+  >
+    <button
+      mat-flat-button
+      *ngIf="!data.hideDefaultActions"
+      color="primary"
+      [mat-dialog-close]="1"
+      (click)="aceptar()"
+    >
+      {{ data.actions?.primary ? data.actions.primary : "Aceptar" }}
+    </button>
+    <button
+      *ngIf="!data.hideDefaultActions"
+      mat-flat-button
+      (click)="cancelar()"
+      color="warn"
+    >
+      {{ data.actions?.secondary ? data.actions.secondary : "Cancelar" }}
+    </button>
+
+    <!--OTHER BUTTONS-->
+    <button
+      mat-flat-button
+      *ngFor="let action of data.actions?.otherButtons"
+      [color]="action.type"
+      [ngStyle]="action.customStyles"
+      (click)="action.action()"
+    >
+      {{ action.nombre }}
+    </button>
+  </div>
+</div>
