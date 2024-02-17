@@ -1,0 +1,17 @@
+<ul class="clearfix">
+  <li *ngFor="let item of data.config">
+    <p>
+      <span class="font-weight-bold"
+        ><strong>{{ item.label }}: </strong>
+      </span>
+      <ng-container *ngIf="item.type; else noMapping">
+        <span
+          [innerHTML]="getValueFromKey(item.key) | mapping : item.type"
+        ></span>
+      </ng-container>
+      <ng-template #noMapping>
+        {{ getValueFromKey(item.key) }}
+      </ng-template>
+    </p>
+  </li>
+</ul>

@@ -1,0 +1,38 @@
+<!--Main card-->
+<!-- <mat-card class="uis-stepper-main-content">
+  <mat-card-content> -->
+    <!--subtitulo del stepper-->
+    <div class="uis-stepper-title">
+      <p [innerHTML]="getSubtitle()"></p>
+      <ng-content select="[step-subtitle]"></ng-content>
+    </div>
+    <!--stepper-->
+    <mat-stepper
+      labelPosition="bottom"
+      [orientation]="(stepperOrientation | async)!"
+      (selectionChange)="selectionChange.emit($event)"
+      [selectedIndex]="selectedIndex"
+      (selectedIndexChange)="selectedIndexChange.emit($event)"
+      #stepper
+    >
+      <!--ALL STEPS-->
+      <mat-step
+        *ngFor="let item of contentSteppers; let i = index"
+        [state]="item.state"
+        [editable]="item.editable"
+        [optional]="item.optional"
+        [aria-labelledby]="item.disabled ? 'disabled' : null"
+      >
+        <!--NOMBRE DEL STEP-->
+        <ng-template class="uis-stepper-title" matStepLabel>
+          <span [innerHtml]="item.label"></span>
+        </ng-template>
+        <!--CONTENIDO DEL STEP-->
+        <ng-template
+          *ngIf="item.template"
+          [ngTemplateOutlet]="item.template"
+        ></ng-template>
+      </mat-step>
+    </mat-stepper>
+  <!-- </mat-card-content>
+</mat-card> -->

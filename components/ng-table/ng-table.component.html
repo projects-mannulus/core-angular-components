@@ -1,0 +1,143 @@
+<div class="card">
+  <div class="header">
+    <h2>{{ config.title }}</h2>
+  </div>
+
+  <div class="ng-header-table">
+    <mat-form-field appearance="fill" *ngIf="config.showFilter ?? true">
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        type="text"
+        [formControl]="controlFilter"
+        placeholder="Escriba para filtrar"
+      />
+    </mat-form-field>
+
+    <div *ngIf="!config.showFilter"></div>
+    <button
+      *ngIf="!config.hideDefaultActions?.add"
+      mat-mini-fab
+      color="primary"
+      (click)="addAction.emit()"
+    >
+      <mat-icon class="col-white">add</mat-icon>
+    </button>
+  </div>
+  <div class="tableBody">
+    <div class="table-responsive">
+      <!--TABLE OF DATA-->
+      <table class="table display product-overview mb-30" id="ng-table-dynamic">
+        <thead>
+          <tr>
+            <th class="text-center" *ngFor="let item of config.headerColumns">
+              {{ item }}
+            </th>
+            <th class="text-center" *ngIf="!hideColumnActions">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--NULL TABLE-->
+          <tr *ngIf="dataSource.data.length === 0">
+            <td
+              class="text-center no-data"
+              [attr.colspan]="config.headerColumns.length + 1"
+            >
+              No hay datos
+            </td>
+          </tr>
+
+          <!--ROW-->
+          <tr *ngFor="let row of dataSource.data; let i = index">
+            <!--COLUMNS-->
+            <td
+              id="{{ i + 'n' }}"
+              class="text-center"
+              [style]="
+                config?.widthColumns && config?.widthColumns[i]
+                  ? 'flex: 0 0 ' + config.widthColumns[i]
+                  : ''
+              "
+              *ngFor="let key of config?.keys; let ikey = index"
+            >
+              <span [innerHTML]="toMapper(row, key, ikey)"></span>
+            </td>
+            <!--ACCIONES-->
+            <td class="text-center" *ngIf="!hideColumnActions">
+              <!--CUSTOM ACTIONS-->
+              <button
+                mat-icon-button
+                (click)="$event.stopPropagation()"
+                (click)="edit(row)"
+                class="tbl-action-btn"
+                *ngFor="let item of config?.actions; let i = index"
+              >
+                <app-feather-icons
+                  [icon]="item.icon"
+                  [class]="'tbl-fav-edit'"
+                ></app-feather-icons>
+              </button>
+              <mat-slide-toggle
+                *ngIf="config.checkbox"
+                (click)="checkRow(row)"
+                [checked]="isChecked(row)"
+              ></mat-slide-toggle>
+              <!--DEFAULT ACTIONS-->
+              <ng-container>
+                <!--VIEW BUTTON-->
+                <button
+                  *ngIf="!config.hideDefaultActions?.view"
+                  mat-icon-button
+                  class="tbl-action-btn"
+                  (click)="$event.stopPropagation()"
+                  (click)="view(row)"
+                >
+                  <app-feather-icons
+                    [icon]="'search'"
+                    [class]="'tbl-fav-edit'"
+                  ></app-feather-icons>
+                </button>
+                <!--EDIT BUTTON-->
+                <button
+                  *ngIf="!config.hideDefaultActions?.edit"
+                  mat-icon-button
+                  (click)="$event.stopPropagation()"
+                  (click)="edit(row)"
+                  class="tbl-action-btn"
+                >
+                  <app-feather-icons
+                    [icon]="'edit'"
+                    [class]="'tbl-fav-edit'"
+                  ></app-feather-icons>
+                </button>
+                <!--DELETE BUTTON-->
+                <button
+                  *ngIf="!config.hideDefaultActions?.delete"
+                  mat-icon-button
+                  class="tbl-action-btn"
+                  (click)="$event.stopPropagation()"
+                  (click)="deleteItem(row)"
+                >
+                  <app-feather-icons
+                    [icon]="'trash-2'"
+                    [class]="'tbl-fav-delete'"
+                  ></app-feather-icons>
+                </button>
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <mat-paginator
+        #paginator
+        *ngIf="!config.hidePaginator"
+        [pageSizeOptions]="pageSizeOptions"
+        [length]="lengthData"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

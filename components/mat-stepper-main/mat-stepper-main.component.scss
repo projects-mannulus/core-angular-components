@@ -1,0 +1,107 @@
+//Variables
+$text-font-size: 16px;
+
+//Main card
+.uis-stepper-main-content {
+  padding: 33px 20px;
+  min-height: 76vh;
+  .uis-stepper-title {
+    color: var(--tonos-tenues-textos);
+    font-size: $text-font-size;
+    span {
+      font-weight: bold;
+    }
+  }
+}
+
+//Deep elements
+
+:host ::ng-deep {
+  .mat-horizontal-stepper-wrapper {
+    gap: 10px;
+  }
+
+  .mat-step-text-label {
+    font-weight: bold;
+    color: var(--tonos-tenues-textos);
+  }
+  .mat-step-header[aria-labelledby="disabled"] {
+    pointer-events: none !important;
+    cursor: not-allowed;
+    .mat-step-icon {
+      background: #6f6f6f !important;
+      border: 0px !important;
+      opacity: 0.5;
+      color: white !important;
+    }
+  }
+
+  :not(.mat-step-header[aria-selected="true"]) {
+    .mat-step-icon {
+      // background: #6f6f6f;
+      border: 3px solid var(--main-color);
+      background: white;
+      color: #6f6f6fb7;
+    }
+  }
+  .mat-step-icon-selected {
+    background: var(--main-color) !important;
+    opacity: 1;
+    color: white !important;
+  }
+
+  .mat-step-header {
+    .mat-step-icon {
+      height: 43px;
+      width: 43px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &::after {
+        font-size: 24px;
+        margin-top: -2px !important;
+      }
+      margin-top: -10px;
+    }
+  }
+
+  .fix-icono .mat-step-header {
+    .mat-step-icon {
+      margin-left: -8px;
+    }
+  }
+
+  .mat-step-header {
+    .mat-step-icon {
+      opacity: 1;
+      * {
+        display: none;
+      }
+      &:after {
+        font-family: "Material Icons", Arial, Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+        margin-top: 2px;
+      }
+    }
+  }
+  //modificacion del DOM desde el TypeScript
+  .mat-step-header {
+    .mat-step-icon {
+      --icon: attr(data-icon-step);
+      &:after {
+        color: #6f42c1;
+        content: " " var(--icon) " ";
+      }
+    }
+  }
+
+  .mat-cell {
+    color: var(--tonos-tenues-textos);
+  }
+
+  .mat-tab-label.mat-tab-label-active {
+    color: var(--main-color);
+    font-weight: bold;
+  }
+}
